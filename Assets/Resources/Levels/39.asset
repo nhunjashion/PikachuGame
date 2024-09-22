@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90645acc6c93368429b5dc1f85ebbe24, type: 3}
+  m_Name: 39
+  m_EditorClassIdentifier: 
+  id: 39
+  level: 39
+  time: 300
+  mapType: 4
+  width: 16
+  height: 9
+  pokemonCount: 6
