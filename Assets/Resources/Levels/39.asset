@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 39
   level: 39
-  time: 300
+  time: 200
   mapType: 4
   width: 16
   height: 9

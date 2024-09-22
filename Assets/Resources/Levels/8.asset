@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 8
   level: 8
   time: 500
-  mapType: 5
+  mapType: 0
   width: 10
   height: 7
   pokemonCount: 8

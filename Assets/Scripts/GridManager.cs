@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using static BlockObj;
@@ -134,16 +133,12 @@ public class GridManager :  MonoBehaviour
             case MapType.Falcon:
                 SpawnBlockFalonMap();
                 break;
-
-            case MapType.Caro1:
-                SpawnBlockCaro1Map();
-                break;
-
-            case MapType.Caro2:
-                SpawnBlockCaro2Map();
-                break;
         }
-        
+
+        blockActive = listObjBlock.Where(t => !t.isBlank).ToList();
+
+
+
         CreateListImg();
 
         this.SetImgBlockSpawn();
@@ -151,7 +146,7 @@ public class GridManager :  MonoBehaviour
 
         currentTime = maxTime;
         timeBar.maxValue = maxTime;
-        blockAmount = width * height;
+        blockAmount = blockActive.Count;
     }
 
 
@@ -171,11 +166,15 @@ public class GridManager :  MonoBehaviour
         }
 
     }
+    public List<BlockObj> blockActive = new();
     public void CreateListImg()
     {
+        
+
+
         int colorCount = 0;
         Sprite img = ImgSelected();
-        for(int i = 0; i < width*height; i++)
+        for(int i = 0; i < blockActive.Count; i++)
         {            
             colorCount++;
             blockContentImg.Add(img);
@@ -541,7 +540,7 @@ public class GridManager :  MonoBehaviour
     {
         foreach (BlockObj block in this.listObjBlock)
         {
-            if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
+            if (block.isBlank)
             {
                 continue;
             }
@@ -1637,7 +1636,5 @@ public enum MapType
     Lion,
     Dragon,
     Baron,
-    Falcon,
-    Caro1,
-    Caro2,
+    Falcon
 }

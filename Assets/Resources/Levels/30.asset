@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 30
   level: 30
   time: 600
-  mapType: 5
-  width: 10
+  mapType: 2
+  width: 16
   height: 9
   pokemonCount: 10
