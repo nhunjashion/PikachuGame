@@ -135,7 +135,7 @@ public class GridManager :  MonoBehaviour
                 break;
         }
 
-        blockActive = listObjBlock.Where(t => !t.isBlank).ToList();
+       // blockActive = listObjBlock.Where(t => !t.isBlank).ToList();
 
 
 
@@ -169,9 +169,6 @@ public class GridManager :  MonoBehaviour
     public List<BlockObj> blockActive = new();
     public void CreateListImg()
     {
-        
-
-
         int colorCount = 0;
         Sprite img = ImgSelected();
         for(int i = 0; i < blockActive.Count; i++)
@@ -191,7 +188,7 @@ public class GridManager :  MonoBehaviour
 
     public Sprite ImgSelected()
     {
-        int index = Random.Range(0, contentImg.Count - 1);
+        int index = Random.Range(0, contentImg.Count);
         Sprite img = contentImg[index];
         contentImg.RemoveAt(index);
         return img;
@@ -199,6 +196,7 @@ public class GridManager :  MonoBehaviour
 
     public void ClearData()
     {
+        blockActive.Clear();
         contentImg.Clear();
         blockContentImg.Clear();
         listBlocks.Clear();
@@ -258,6 +256,7 @@ public class GridManager :  MonoBehaviour
                 block.isBlank = false;
                 blockObj.isBlank = false;
                 listObjBlock.Add(blockObj);
+                blockActive.Add(blockObj);
             }
 
             blockObj.blockID = block.id;
@@ -305,6 +304,7 @@ public class GridManager :  MonoBehaviour
                 block.isBlank = false;
                 blockObj.isBlank = false;
                 listObjBlock.Add(blockObj);
+                blockActive.Add(blockObj);
             }
 
             blockObj.blockID = block.id;
@@ -352,6 +352,7 @@ public class GridManager :  MonoBehaviour
                 block.isBlank = false;
                 blockObj.isBlank = false;
                 listObjBlock.Add(blockObj);
+                blockActive.Add(blockObj);
             }
 
             blockObj.blockID = block.id;
@@ -399,6 +400,7 @@ public class GridManager :  MonoBehaviour
                 block.isBlank = false;
                 blockObj.isBlank = false;
                 listObjBlock.Add(blockObj);
+                blockActive.Add(blockObj);
             }
 
             blockObj.blockID = block.id;
@@ -446,6 +448,7 @@ public class GridManager :  MonoBehaviour
                 block.isBlank = false;
                 blockObj.isBlank = false;
                 listObjBlock.Add(blockObj);
+                blockActive.Add(blockObj);
             }
 
             blockObj.blockID = block.id;
@@ -454,76 +457,6 @@ public class GridManager :  MonoBehaviour
             block.blockObj = blockObj;
         }
     }
-
-
-    public void SpawnBlockCaro1Map() // flex w & h
-    {
-        int index = Random.Range(0, contentImg.Count);
-
-        foreach (Block block in this.listBlocks)
-        {
-
-            BlockObj blockObj;
-            parentGroup.constraintCount = width + 2;
-
-            blockObj = Instantiate(blockObjPrefabs, Content);
-            if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1
-                || (block.x % 2 == 1 && block.y %2 == 1) || (block.x % 2 == 0 && block.y % 2 == 0))
-            {
-                block.isBlank = true;
-                blockObj.isBlank = true;
-                blockObj.blockImg.gameObject.SetActive(false);
-                listObjBlock.Add(blockObj);
-            }
-            else
-            {
-                block.isBlank = false;
-                blockObj.isBlank = false;
-                listObjBlock.Add(blockObj);
-            }
-
-            blockObj.blockID = block.id;
-            blockObj.x = block.x;
-            blockObj.y = block.y;
-            block.blockObj = blockObj;
-        }
-    }
-
-
-    public void SpawnBlockCaro2Map() // flex w & h
-    {
-        int index = Random.Range(0, contentImg.Count);
-
-        foreach (Block block in this.listBlocks)
-        {
-
-            BlockObj blockObj;
-            parentGroup.constraintCount = width + 2;
-
-            blockObj = Instantiate(blockObjPrefabs, Content);
-            if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1
-                || (block.x % 2 == 1 && block.y % 2 == 0) || (block.x % 2 == 0 && block.y % 2 == 1))
-            {
-                block.isBlank = true;
-                blockObj.isBlank = true;
-                blockObj.blockImg.gameObject.SetActive(false);
-                listObjBlock.Add(blockObj);
-            }
-            else
-            {
-                block.isBlank = false;
-                blockObj.isBlank = false;
-                listObjBlock.Add(blockObj);
-            }
-
-            blockObj.blockID = block.id;
-            blockObj.x = block.x;
-            blockObj.y = block.y;
-            block.blockObj = blockObj;
-        }
-    }
-
-
 
 
 
