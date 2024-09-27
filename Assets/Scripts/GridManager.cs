@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static BlockObj;
 using static Unity.Collections.AllocatorManager;
+using Random = UnityEngine.Random;
 
 public class GridManager :  MonoBehaviour
 {
@@ -99,6 +101,8 @@ public class GridManager :  MonoBehaviour
 
     public void LoadLevelData()
     {
+        isWin = false;
+        isLose = false;
         width = listLevels[currentLevel].width;
         height = listLevels[currentLevel].height;
         mapType = listLevels[currentLevel].mapType;
@@ -284,12 +288,12 @@ public class GridManager :  MonoBehaviour
                 listObjBlock.Add(blockObj);
             }
             else if((block.y == 1 && (block.x == 7 || block.x == 8)) 
-                    || (block.y == 2 && (block.x == 1 || block.x == 4 || block.x == 8 || block.x == 9 || block.x == 12 || block.x == 13 || block.x == 14))
+                    || (block.y == 2 && (block.x == 1 || block.x == 8 || block.x == 9) )
                     || (block.y == 3 && (block.x == 1 || block.x == 4 || block.x == 5 || block.x == 12 || block.x == 13)) 
                     || (block.y == 4 && (block.x == 1 || block.x == 5 || block.x == 6 || block.x == 11 || block.x == 12 || block.x == 16)) 
                     || (block.y == 5 && (block.x == 1 || block.x == 6 || block.x == 7 || block.x == 10 || block.x == 14 || block.x == 15 || block.x == 16))
                     || (block.y == 6 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 6 || block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 13 || block.x == 14 || block.x == 16)) 
-                    || (block.y == 7 && (block.x == 6 || block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 13)) 
+                    || (block.y == 7 && (block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 13)) 
                     || (block.y == 8 && (block.x == 1 || block.x == 10 || block.x == 13 || block.x == 14 || block.x == 16))
                     || (block.y == 9 && (block.x == 1 || block.x == 2 || block.x == 6 || block.x == 8 || block.x == 10 || block.x == 16))
                         )
@@ -1348,8 +1352,8 @@ public class GridManager :  MonoBehaviour
 
                 if (start.x > end.x)
                 {
-                    pivotObj1 = start.down;
-                    pivotObj2 = end.up;
+                    pivotObj1 = start.up;
+                    pivotObj2 = end.down;
                     for (int i = start.y; i < end.y; i++)
                     {
                         if (pivotObj1.isBlank && pivotObj2.isBlank)
@@ -1502,7 +1506,7 @@ public class GridManager :  MonoBehaviour
                 DrawLine.Instance.DrawLink(blockPos);
             }
 
-            StartCoroutine(HideBlocks());
+            StartCoroutine(HideBlocks(LevelFinish));
 
         }
         else ResetBlockSelect();
@@ -1512,17 +1516,28 @@ public class GridManager :  MonoBehaviour
    
     }
 
+
+    public bool isLose = false;
+    public bool isWin = false;
     public void CheckWinLose()
     {
         if(blockAmount == 0 && currentTime >= 0)
         {
-            popupWin.SetActive(true);
+            isWin = true;
         }
         if(currentTime < 0 && blockAmount >0)
         {
-            popupLose.SetActive(true);
+            isLose = true;
         }
     }
+
+
+    public void LevelFinish(bool isEndAnim)
+    {
+        if(isWin && isEndAnim) popupWin.SetActive(true);
+        if(isLose && isEndAnim) popupLose.SetActive(true);
+    }
+
 
     public void ResetBlockSelect()
     {
@@ -1551,13 +1566,16 @@ public class GridManager :  MonoBehaviour
         img2 = null;
     }
 
-    IEnumerator HideBlocks()
+    IEnumerator HideBlocks(Action<bool> callback)
     {
 
         yield return new WaitForSeconds(.2f);
 
         line.SetActive(false);
         ResetBlock();
+
+        yield return new WaitForEndOfFrame();
+        callback(true);
     }
     #endregion
 }
