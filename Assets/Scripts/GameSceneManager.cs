@@ -2,57 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSceneManager : MonoBehaviour
+namespace PikachuGame
 {
-    public static GameSceneManager Instance;
-
-    public GameObject pausePopup; 
-    public GameObject popupSelectLevel;
-
-
-    private void Start()
+    public class GameSceneManager : MonoBehaviour
     {
-        Instance = this;
-    }
-    public void OnClickResetMAp()
-    {
-        GridManager.Instance.ClearData();
-        GridManager.Instance.LoadLevelData();
+        public static GameSceneManager Instance;
 
-        GridManager.Instance.popupLose.SetActive(false);
-    }
+        public GameObject pausePopup; 
+        public GameObject popupSelectLevel;
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
 
-    public void PauseGame()
-    {
-        Time.timeScale = 0;
-        pausePopup.SetActive(true);
-    }
+        private void Start()
+        {
+            Instance = this;
+        }
+        public void OnClickResetMAp()
+        {
+            GridManager.Instance.ClearData();
+            GridManager.Instance.LoadLevelData();
 
-    public void ResumeGame()
-    {
-        Time.timeScale = 1;
-        pausePopup.SetActive(false);
-    }
+            GridManager.Instance.popupLose.SetActive(false);
+        }
 
-    public void NextLevel()
-    {
-        GridManager.Instance.currentLevel++;
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
+        public void PauseGame()
+        {
+            Time.timeScale = 0;
+            pausePopup.SetActive(true);
+        }
+
+        public void ResumeGame()
+        {
+            Time.timeScale = 1;
+            pausePopup.SetActive(false);
+        }
+
+        public void NextLevel()
+        {
+            GridManager.Instance.currentLevel++;
         
-        GridManager.Instance.ClearData();
-        GridManager.Instance.LoadLevelData();
+            GridManager.Instance.ClearData();
+            GridManager.Instance.LoadLevelData();
 
-        GridManager.Instance.popupWin.SetActive(false);
+            GridManager.Instance.popupWin.SetActive(false);
+        }
+
+        public void SelectLevel()
+        {
+            Time.timeScale = 0;
+            popupSelectLevel.SetActive(true);
+        }
+
     }
-
-    public void SelectLevel()
-    {
-        Time.timeScale = 0;
-        popupSelectLevel.SetActive(true);
-    }
-
 }
+

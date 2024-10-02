@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class LevelBtn : MonoBehaviour
+namespace PikachuGame
 {
-    public TextMeshProUGUI levelTxt;
-    public int level;
-
-    public void SetLevelText(int value)
+    public class LevelBtn : MonoBehaviour
     {
-        levelTxt.text = value.ToString();
-        level = value;
-    }
+        public TextMeshProUGUI levelTxt;
+        public int level;
 
-    public void OnClick()
-    {
-        GridManager.Instance.currentLevel = level;
+        public void SetLevelText(int value)
+        {
+            levelTxt.text = value.ToString();
+            level = value;
+        }
 
-        GridManager.Instance.ClearData();
-        GridManager.Instance.LoadLevelData();
+        public void OnClick()
+        {
+            GridManager.Instance.currentLevel = level;
 
-        GameSceneManager.Instance.popupSelectLevel.SetActive(false);
-        Time.timeScale = 1;
+            GridManager.Instance.ClearData();
+            GridManager.Instance.LoadLevelData();
+
+            GameSceneManager.Instance.popupSelectLevel.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 }
+

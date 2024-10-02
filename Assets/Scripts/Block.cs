@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class Block
-{ 
-    public int id; 
 
-    public int x = 0;
-    public int y = 0;
+namespace PikachuGame
+{
+    [Serializable]
+    public class Block
+    { 
+        public int id; 
 
-    public bool isBlank = true;
+        public int x = 0;
+        public int y = 0;
 
-    public BlockObj blockObj;
+        public bool isBlank = true;
 
-    [Header("Block neighbor")]
-    public Block up;
-    public Block right;
-    public Block down;
-    public Block left;
+        public BlockObj blockObj;
 
+        [Header("Block neighbor")]
+        public Block up;
+        public Block right;
+        public Block down;
+        public Block left;
+
+    }
 }
+

@@ -3,258 +3,262 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlockObj : MonoBehaviour
+namespace PikachuGame
 {
-    [Header("Block infor")]
-    public int blockID = 0;
-    public string blockName;
-    public Image blockImg;
-    public Image contentImg;
-    public bool isBlank;
+    public class BlockObj : MonoBehaviour
+    {
+        [Header("Block infor")]
+        public int blockID = 0;
+        public string blockName;
+        public Image blockImg;
+        public Image contentImg;
+        public bool isBlank;
 
    
-    [Header("Position in field")]
-    public int x = 0;
-    public int y = 0;
+        [Header("Position in field")]
+        public int x = 0;
+        public int y = 0;
 
-    [Header("Neighbors")]
-    public List<BlockObj> neighbors = new List<BlockObj>();
-    public BlockObj up; // 0
-    public BlockObj right; // 1
-    public BlockObj down; // 2
-    public BlockObj left; // 3
+        [Header("Neighbors")]
+        public List<BlockObj> neighbors = new List<BlockObj>();
+        public BlockObj up; // 0
+        public BlockObj right; // 1
+        public BlockObj down; // 2
+        public BlockObj left; // 3
 
-    public void SetData(Sprite content)       
-    {
-        contentImg.sprite = content;
-
-    }
-
-
-
-    public void OnClickBlock()
-    {
-        Color colorSelect = new Color32(229,153,153,225);
-        this.blockImg.color = colorSelect;
-        Debug.Log("Click on block: " + blockID  + " name: " + blockName + " pos: " + this.gameObject.transform.localPosition  + " is blank: " + isBlank + " Neighbor count: " + neighbors.Count);
-
-        if(GridManager.Instance.blockSelect1 == null)
+        public void SetData(Sprite content)       
         {
-            GridManager.Instance.blockSelect1 = this;
+            contentImg.sprite = content;
+
         }
-        else if(GridManager.Instance.blockSelect2 == null)
+
+
+
+        public void OnClickBlock()
         {
-            if(GridManager.Instance.blockSelect1.blockID == this.blockID)
+            Color colorSelect = new Color32(229,153,153,225);
+            this.blockImg.color = colorSelect;
+            Debug.Log("Click on block: " + blockID  + " name: " + blockName + " pos: " + this.gameObject.transform.localPosition  + " is blank: " + isBlank + " Neighbor count: " + neighbors.Count);
+
+            if(GridManager.Instance.blockSelect1 == null)
             {
-                this.blockImg.color = Color.white;
-                GridManager.Instance.blockSelect1 = null;
-                GridManager.Instance.blockSelect2 = null;
+                GridManager.Instance.blockSelect1 = this;
+            }
+            else if(GridManager.Instance.blockSelect2 == null)
+            {
+                if(GridManager.Instance.blockSelect1.blockID == this.blockID)
+                {
+                    this.blockImg.color = Color.white;
+                    GridManager.Instance.blockSelect1 = null;
+                    GridManager.Instance.blockSelect2 = null;
+                }
+                else
+                {
+                    GridManager.Instance.blockSelect2 = this;
+
+                    GridManager.Instance.CheckPos();
+                }
+
             }
             else
             {
-                GridManager.Instance.blockSelect2 = this;
-
-                GridManager.Instance.CheckPos();
-            }
-
+                GridManager.Instance.blockSelect1 = this;
+                GridManager.Instance.blockSelect2 = null;
+            }  
         }
-        else
+
+        public bool Checking(BlockDirection direction, BlockObj end)
         {
-            GridManager.Instance.blockSelect1 = this;
-            GridManager.Instance.blockSelect2 = null;
-        }  
-    }
-
-    public bool Checking(BlockDirection direction, BlockObj end)
-    {
-        switch (direction)
-        {
-            case BlockDirection.Left:
-                if (left == null ) return false;
-                if (left != null && !left.isBlank && left.blockName != end.blockName) return false;
-                if (left == end)
-                {
-                    GridManager.Instance.listBlockLine.Add(this);
-                    return true;
-                    
-                }
-               // bool isChecking = false;
-
-                if (GridManager.Instance.stepCount < 2)
-                {
-                    if (left.y < end.y)
-                    {
-                        if (left.Checking(BlockDirection.Up, end))
-                        {
-                            if (GridManager.Instance.stepCount+1 >2 ) return false;
-                            return AddNode();
-                        }
-                    }
-                    else if (left.y > end.y)
-                    {
-                        if (left.Checking(BlockDirection.Down, end))
-                        {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-
-                        }
-                    }
-                    if (left.Checking(BlockDirection.Left, end))
+            switch (direction)
+            {
+                case BlockDirection.Left:
+                    if (left == null ) return false;
+                    if (left != null && !left.isBlank && left.blockName != end.blockName) return false;
+                    if (left == end)
                     {
                         GridManager.Instance.listBlockLine.Add(this);
                         return true;
+                    
                     }
-                }
-                else return false;
+                   // bool isChecking = false;
+
+                    if (GridManager.Instance.stepCount < 2)
+                    {
+                        if (left.y < end.y)
+                        {
+                            if (left.Checking(BlockDirection.Up, end))
+                            {
+                                if (GridManager.Instance.stepCount+1 >2 ) return false;
+                                return AddNode();
+                            }
+                        }
+                        else if (left.y > end.y)
+                        {
+                            if (left.Checking(BlockDirection.Down, end))
+                            {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+
+                            }
+                        }
+                        if (left.Checking(BlockDirection.Left, end))
+                        {
+                            GridManager.Instance.listBlockLine.Add(this);
+                            return true;
+                        }
+                    }
+                    else return false;
                 
 
 
-                return false;
+                    return false;
 
 
-            case BlockDirection.Right:
-                if (right == null ) return false;
-                if (right != null && !right.isBlank && right.blockName != end.blockName) return false;
-                if (right == end)
-                {
-                    GridManager.Instance.listBlockLine.Add(this);
-                    return true;
-                }
-
-                if (GridManager.Instance.stepCount < 2)
-                {
-                    if (right.y < end.y)
-                    {
-                        if (right.Checking(BlockDirection.Up, end))
-                        {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-
-
-                        }
-                    }
-                    else if (right.y > end.y)
-                    {
-                        if (right.Checking(BlockDirection.Down, end))
-                        {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-
-                        }
-                    }
-
-                    if (right.Checking(BlockDirection.Right, end))
+                case BlockDirection.Right:
+                    if (right == null ) return false;
+                    if (right != null && !right.isBlank && right.blockName != end.blockName) return false;
+                    if (right == end)
                     {
                         GridManager.Instance.listBlockLine.Add(this);
                         return true;
                     }
-                }
-                else return false;
+
+                    if (GridManager.Instance.stepCount < 2)
+                    {
+                        if (right.y < end.y)
+                        {
+                            if (right.Checking(BlockDirection.Up, end))
+                            {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+
+
+                            }
+                        }
+                        else if (right.y > end.y)
+                        {
+                            if (right.Checking(BlockDirection.Down, end))
+                            {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+
+                            }
+                        }
+
+                        if (right.Checking(BlockDirection.Right, end))
+                        {
+                            GridManager.Instance.listBlockLine.Add(this);
+                            return true;
+                        }
+                    }
+                    else return false;
                     
 
-                return false;
+                    return false;
 
 
-            case BlockDirection.Up:
-                if(up==null ) return false;
-                if (up != null && !up.isBlank && up.blockName != end.blockName) return false;
-                if (up == end)
-                {
-                    GridManager.Instance.listBlockLine.Add(this);
-                    return true;
-                }
+                case BlockDirection.Up:
+                    if(up==null ) return false;
+                    if (up != null && !up.isBlank && up.blockName != end.blockName) return false;
+                    if (up == end)
+                    {
+                        GridManager.Instance.listBlockLine.Add(this);
+                        return true;
+                    }
 
-                if (GridManager.Instance.stepCount < 2)
-                {
+                    if (GridManager.Instance.stepCount < 2)
+                    {
                    
-                        if (up.x < end.x)
-                        {
-
-                            if (up.Checking(BlockDirection.Right, end))
+                            if (up.x < end.x)
                             {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-                            }
-                        }
-                        else if (up.x > end.x)
-                        {
-                            if (up.Checking(BlockDirection.Left, end))
-                            {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
 
+                                if (up.Checking(BlockDirection.Right, end))
+                                {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+                                }
                             }
+                            else if (up.x > end.x)
+                            {
+                                if (up.Checking(BlockDirection.Left, end))
+                                {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+
+                                }
+                            }
+                        if (up.Checking(BlockDirection.Up, end))
+                        {
+                            GridManager.Instance.listBlockLine.Add(this);
+                            return true;
                         }
-                    if (up.Checking(BlockDirection.Up, end))
+                    }
+                    else return false;
+                    return false;
+
+                case BlockDirection.Down:
+                    if (down == null ) return false;
+                    if (down != null && !down.isBlank && down.blockName != end.blockName) return false;
+                    if (down == end)
                     {
                         GridManager.Instance.listBlockLine.Add(this);
                         return true;
                     }
-                }
-                else return false;
-                return false;
 
-            case BlockDirection.Down:
-                if (down == null ) return false;
-                if (down != null && !down.isBlank && down.blockName != end.blockName) return false;
-                if (down == end)
-                {
-                    GridManager.Instance.listBlockLine.Add(this);
-                    return true;
-                }
+                    if (GridManager.Instance.stepCount < 2)
+                    {
+                        if (down.x < end.x)
+                        {
+                            if (down.Checking(BlockDirection.Right, end))
+                            {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+                            }
+                        }
+                        else if (down.x > end.x)
+                        {
+                            if (down.Checking(BlockDirection.Left, end))
+                            {
+                                if (GridManager.Instance.stepCount + 1 > 2) return false;
+                                return AddNode();
+                            }
+                        }
+                        if (down.Checking(BlockDirection.Down, end))
+                        {
+                            GridManager.Instance.listBlockLine.Add(this);
+                            return true;
+                        }                   
+                    }
+                    else return false;
+                    return false;
+            }
+            return true;
 
-                if (GridManager.Instance.stepCount < 2)
-                {
-                    if (down.x < end.x)
-                    {
-                        if (down.Checking(BlockDirection.Right, end))
-                        {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-                        }
-                    }
-                    else if (down.x > end.x)
-                    {
-                        if (down.Checking(BlockDirection.Left, end))
-                        {
-                            if (GridManager.Instance.stepCount + 1 > 2) return false;
-                            return AddNode();
-                        }
-                    }
-                    if (down.Checking(BlockDirection.Down, end))
-                    {
-                        GridManager.Instance.listBlockLine.Add(this);
-                        return true;
-                    }                   
-                }
-                else return false;
-                return false;
         }
-        return true;
 
-    }
+         bool AddNode()
+            {
+            GridManager.Instance.stepCount++;
 
-     bool AddNode()
+            GridManager.Instance.listBlockLine.Add(this);
+            return true;
+            }
+
+
+
+        public enum BlockDirection
         {
-        GridManager.Instance.stepCount++;
-
-        GridManager.Instance.listBlockLine.Add(this);
-        return true;
+            Up, 
+            Right,
+            Down,
+            Left
         }
-
-
-
-    public enum BlockDirection
-    {
-        Up, 
-        Right,
-        Down,
-        Left
     }
-}
 
-public class ResultChecking
-{
-    public bool isLink;
-    public int step;
+    public class ResultChecking
+    {
+        public bool isLink;
+        public int step;
+    }
+
 }
