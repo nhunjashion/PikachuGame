@@ -1,3 +1,4 @@
+using DG.Tweening;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -521,7 +522,6 @@ namespace PikachuGame
                 block.neighbors.Add(this.GetBlockByXY(x - 1, y)); // left
                 block.left = this.GetBlockByXY(x - 1, y);
 
-                Debug.Log("NEIGHBOR COUNT" + block.neighbors.Count);
             }
 
 
@@ -630,9 +630,6 @@ namespace PikachuGame
             {
                 if (listBlockLine.Count == 0) AddPivotPoint(blockSelect1, pivot1, pivotTemp , pivot2, blockSelect2);
             }
-
-            Debug.Log("CAN LINK? " + canLink);
-            Debug.Log("POINT COUNT: " + listBlockLine.Count);
 
             DrawLink();
         }
@@ -1551,20 +1548,23 @@ namespace PikachuGame
                 blockSelect2 = null;
             }
         }
+
+
         public void ResetBlock()
         {
+            StartCoroutine(HideAnim());
 
             blockSelect1.isBlank = true;
-            img1.SetActive(false);
+           // img1.SetActive(false);
 
             blockSelect2.isBlank = true;
-            img2.SetActive(false);
+            // img2.SetActive(false);
+
+            //img1 = null;
+            // img2 = null;
 
             blockSelect1 = null;
             blockSelect2 = null;
-
-            img1 = null;
-            img2 = null;
         }
 
         IEnumerator HideBlocks(Action<bool> callback)
@@ -1575,10 +1575,34 @@ namespace PikachuGame
             line.SetActive(false);
             ResetBlock();
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(2.4f);
             callback(true);
         }
         #endregion
+
+
+
+        public ParticleSystem disappearEff;
+        public IEnumerator HideAnim()
+        {
+            Vector3 pos1 = blockSelect1.gameObject.transform.position;
+            Vector3 pos2 = blockSelect2.gameObject.transform.position;
+            blockSelect1.blockImg.transform.DOScale(1.2f, 0.1f);
+            blockSelect2.blockImg.transform.DOScale(1.2f, 0.1f);
+            blockSelect1.blockImg.transform.DOScale(0f, 0.2f);
+            blockSelect2.blockImg.transform.DOScale(0f, 0.2f);
+
+
+
+            yield return new WaitForSeconds(.2f);
+            var eff = Instantiate(disappearEff, pos1, Quaternion.identity);
+            var eff1 = Instantiate(disappearEff, pos2, Quaternion.identity);
+
+           // eff.Play();
+           // eff1.Play();
+
+
+        }
     }
 
 

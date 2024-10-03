@@ -11,7 +11,10 @@ namespace PikachuGame
         public GameObject pausePopup; 
         public GameObject popupSelectLevel;
 
-
+        private void OnEnable()
+        {
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
+        }
         private void Start()
         {
             Instance = this;

@@ -33,12 +33,10 @@ namespace PikachuGame
         }
 
 
-
         public void OnClickBlock()
         {
             Color colorSelect = new Color32(229,153,153,225);
             this.blockImg.color = colorSelect;
-            Debug.Log("Click on block: " + blockID  + " name: " + blockName + " pos: " + this.gameObject.transform.localPosition  + " is blank: " + isBlank + " Neighbor count: " + neighbors.Count);
 
             if(GridManager.Instance.blockSelect1 == null)
             {
