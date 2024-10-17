@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a0ab6dac2a95447b51835c145b2e01, type: 3}
+  m_Name: BlockBg
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 929cb5d47dfbb86489219b2a2ae7171e, type: 3}
+  - {fileID: 21300000, guid: f025f27a0c573e84982361a5426d126d, type: 3}
+  - {fileID: 21300000, guid: b135633795559b047ac7d40c7375b74a, type: 3}
+  - {fileID: 21300000, guid: da213c7fc69013c4b8c69ef24c1c4227, type: 3}
+  - {fileID: 21300000, guid: 3d55d57b1c6743145b2601345d6c274c, type: 3}
+  - {fileID: 21300000, guid: 462c3dd4214a2ad4bae3e59f61e40f9a, type: 3}

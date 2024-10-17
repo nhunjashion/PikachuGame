@@ -36,6 +36,7 @@ namespace PikachuGame
         public float currentTime;
         public int blockAmount;
         public SpriteSO sprites;
+        public SpriteSO blockBgs;
         public Transform Content;
         public Slider timeBar;
 
@@ -51,6 +52,7 @@ namespace PikachuGame
         public List<Block> listBlocks;
         public List<BlockObj> listObjBlock;
         public List<Sprite> contentImg;
+        public List<Sprite> bgImg;
         public List<Sprite> blockContentImg;
 
 
@@ -162,12 +164,21 @@ namespace PikachuGame
         #region LOAD IMG DATA
         public void LoadBlockImg()
         {
-            if (this.sprites == null) this.sprites = Resources.Load<SpriteSO>("ScriptableObjects"); 
+            if (this.sprites == null) this.sprites = Resources.Load<SpriteSO>("ScriptableObjects/Dragon"); 
             else
             {
                 foreach (var item in sprites.sprites)
                 {
                     contentImg.Add(item);
+                }
+            }
+
+            if (this.blockBgs == null) this.blockBgs = Resources.Load<SpriteSO>("ScriptableObjects/BlockBg");
+            else
+            {
+                foreach (var item in blockBgs.sprites)
+                {
+                    bgImg.Add(item);
                 }
             }
 
@@ -187,9 +198,7 @@ namespace PikachuGame
 
                     colorCount = 0;
                 }
-
             }
-
         }
 
         public Sprite ImgSelected()
@@ -477,6 +486,8 @@ namespace PikachuGame
 
         public void SetImgBlockSpawn()
         {
+            int index = Random.Range(0, bgImg.Count - 1);
+            Sprite bg = bgImg[index];
             foreach (BlockObj block in this.listObjBlock)
             {
                 if (block.isBlank)
@@ -486,7 +497,7 @@ namespace PikachuGame
                 else
                 {
                     Sprite blockImg = SetImg();
-                    block.SetData(blockImg);
+                    block.SetData(blockImg,bg);
                     block.blockName = blockImg.name;
                 }
 

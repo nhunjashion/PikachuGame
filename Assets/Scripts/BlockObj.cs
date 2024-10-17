@@ -26,10 +26,10 @@ namespace PikachuGame
         public BlockObj down; // 2
         public BlockObj left; // 3
 
-        public void SetData(Sprite content)       
+        public void SetData(Sprite content, Sprite bg)       
         {
             contentImg.sprite = content;
-
+            blockImg.sprite = bg;
         }
 
 
