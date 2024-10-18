@@ -26,6 +26,7 @@ namespace PikachuGame
         public GameObject line;
         public float timer=0.4f;
         public BlockObj blockObjPrefabs;
+        public BlockObj blockObjPrefabs2;
         public GridLayoutGroup parentGroup;
 
 
@@ -107,8 +108,8 @@ namespace PikachuGame
         {
             isWin = false;
             isLose = false;
-            width = listLevels[currentLevel].width;
-            height = listLevels[currentLevel].height;
+            width = listLevels[currentLevel].height;
+            height = listLevels[currentLevel].width;
             mapType = listLevels[currentLevel].mapType;
             maxTime = listLevels[currentLevel].time;
             imageCount = listLevels[currentLevel].pokemonCount;
@@ -252,13 +253,32 @@ namespace PikachuGame
         {
             int index = Random.Range(0, contentImg.Count);
 
+            parentGroup.constraintCount = width + 2;
+
+            BlockObj blockPrefab = blockObjPrefabs;
+
+            if (listBlocks.Count <= 60)
+            {
+                parentGroup.cellSize = new(157, 157);
+                blockPrefab = blockObjPrefabs2;
+            }
+            else if(listBlocks.Count <= 96)
+            {
+                parentGroup.cellSize = new(140, 140);
+                blockPrefab = blockObjPrefabs2;
+            }
+            else
+            {
+                parentGroup.cellSize = new(90, 90);
+                blockPrefab = blockObjPrefabs;
+            }
             foreach (Block block in this.listBlocks)
             {
 
                 BlockObj blockObj;
-                parentGroup.constraintCount = width + 2;
 
-                blockObj = Instantiate(blockObjPrefabs, Content);
+
+                blockObj = Instantiate(blockPrefab, Content);
                 if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
                 {
                     block.isBlank = true;
@@ -285,11 +305,13 @@ namespace PikachuGame
         {
             int index = Random.Range(0, contentImg.Count);
 
+
+            parentGroup.cellSize = new(90, 90);
+            parentGroup.constraintCount = width + 2;
+
             foreach (Block block in this.listBlocks)
             {
                 BlockObj blockObj;
-                parentGroup.constraintCount = width + 2;
-
                 blockObj = Instantiate(blockObjPrefabs, Content);
                 if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
                 {
@@ -298,15 +320,15 @@ namespace PikachuGame
                     blockObj.blockImg.gameObject.SetActive(false);
                     listObjBlock.Add(blockObj);
                 }
-                else if((block.y == 1 && (block.x == 7 || block.x == 8)) 
-                        || (block.y == 2 && (block.x == 1 || block.x == 8 || block.x == 9) )
-                        || (block.y == 3 && (block.x == 1 || block.x == 4 || block.x == 5 || block.x == 12 || block.x == 13)) 
-                        || (block.y == 4 && (block.x == 1 || block.x == 5 || block.x == 6 || block.x == 11 || block.x == 12 || block.x == 16)) 
-                        || (block.y == 5 && (block.x == 1 || block.x == 6 || block.x == 7 || block.x == 10 || block.x == 14 || block.x == 15 || block.x == 16))
-                        || (block.y == 6 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 6 || block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 13 || block.x == 14 || block.x == 16)) 
-                        || (block.y == 7 && (block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 13)) 
-                        || (block.y == 8 && (block.x == 1 || block.x == 10 || block.x == 13 || block.x == 14 || block.x == 16))
-                        || (block.y == 9 && (block.x == 1 || block.x == 2 || block.x == 6 || block.x == 8 || block.x == 10 || block.x == 16))
+                else if((block.x == 1 && (block.y == 7 || block.y == 8)) 
+                        || (block.x == 2 && (block.y == 1 || block.y == 8 || block.y == 9) )
+                        || (block.x == 3 && (block.y == 1 || block.y == 4 || block.y == 5 || block.y == 12 || block.y == 13)) 
+                        || (block.x == 4 && (block.y == 1 || block.y == 5 || block.y == 6 || block.y == 11 || block.y == 12 || block.y == 16)) 
+                        || (block.x == 5 && (block.y == 1 || block.y == 6 || block.y == 7 || block.y == 10 || block.y == 14 || block.y == 15 || block.y == 16))
+                        || (block.x == 6 && (block.y == 1 || block.y == 2 || block.y == 3 || block.y == 6 || block.y == 7 || block.y == 8 || block.y == 9 || block.y == 10 || block.y == 13 || block.y == 14 || block.y == 16)) 
+                        || (block.x == 7 && (block.y == 7 || block.y == 8 || block.y == 9 || block.y == 10 || block.y == 13)) 
+                        || (block.x == 8 && (block.y == 1 || block.y == 10 || block.y == 13 || block.y == 14 || block.y == 16))
+                        || (block.x == 9 && (block.y == 1 || block.y == 2 || block.y == 6 || block.y == 8 || block.y == 10 || block.y == 16))
                             )
                 {
                     block.isBlank = true;
@@ -333,10 +355,12 @@ namespace PikachuGame
         {
             int index = Random.Range(0, contentImg.Count);
 
+
+            parentGroup.cellSize = new(90, 90);
+            parentGroup.constraintCount = width + 2;
             foreach (Block block in this.listBlocks)
             {
                 BlockObj blockObj;
-                parentGroup.constraintCount = width + 2;
 
                 blockObj = Instantiate(blockObjPrefabs, Content);
                 if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
@@ -346,15 +370,15 @@ namespace PikachuGame
                     blockObj.blockImg.gameObject.SetActive(false);
                     listObjBlock.Add(blockObj);
                 }
-                else if ((block.y == 1 && (block.x == 1 || block.x == 5  || block.x == 6 || block.x == 10 || block.x == 11 || block.x == 12 || block.x == 13 || block.x == 14))
-                        || (block.y == 2 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 6 || block.x == 7 || block.x == 14))
-                        || (block.y == 3 && (block.x == 1 || block.x == 2 || block.x == 11 || block.x == 12 || block.x == 14))
-                        || (block.y == 4 && (block.x == 1 || block.x == 2 || block.x == 11 || block.x == 12 || block.x == 14))
-                        || (block.y == 5 && (block.x == 1 || block.x == 7 || block.x == 8 || block.x == 9 || block.x == 10 || block.x == 11 || block.x == 14))
-                        || (block.y == 6 && (block.x == 8 || block.x == 9 || block.x == 13 || block.x == 14))
-                        || (block.y == 7 && (block.x == 1 || block.x == 8 || block.x == 9 || block.x == 11 || block.x == 12 || block.x == 13 || block.x == 14))
-                        || (block.y == 8 && (block.x == 1 || block.x == 2 || block.x == 7 || block.x == 8 || block.x == 9))
-                        || (block.y == 9 && (block.x != 4))
+                else if ((block.x == 1 && (block.y == 1 || block.y == 5  || block.y == 6 || block.y == 10 || block.y == 11 || block.y == 12 || block.y == 13 || block.y == 14))
+                        || (block.x == 2 && (block.y == 1 || block.y == 2 || block.y == 3 || block.y == 6 || block.y == 7 || block.y == 14))
+                        || (block.x == 3 && (block.y == 1 || block.y == 2 || block.y == 11 || block.y == 12 || block.y == 14))
+                        || (block.x == 4 && (block.y == 1 || block.y == 2 || block.y == 11 || block.y == 12 || block.y == 14))
+                        || (block.x == 5 && (block.y == 1 || block.y == 7 || block.y == 8 || block.y == 9 || block.y == 10 || block.y == 11 || block.y == 14))
+                        || (block.x == 6 && (block.y == 8 || block.y == 9 || block.y == 13 || block.y == 14))
+                        || (block.x == 7 && (block.y == 1 || block.y == 8 || block.y == 9 || block.y == 11 || block.y == 12 || block.y == 13 || block.y == 14))
+                        || (block.x == 8 && (block.y == 1 || block.y == 2 || block.y == 7 || block.y == 8 || block.y == 9))
+                        || (block.x == 9 && (block.y != 4))
                             )
                 {
                     block.isBlank = true;
@@ -381,10 +405,13 @@ namespace PikachuGame
         {
             int index = Random.Range(0, contentImg.Count);
 
+
+            parentGroup.cellSize = new(90, 90);
+            parentGroup.constraintCount = width + 2;
+
             foreach (Block block in this.listBlocks)
             {
                 BlockObj blockObj;
-                parentGroup.constraintCount = width + 2;
 
                 blockObj = Instantiate(blockObjPrefabs, Content);
                 if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
@@ -394,15 +421,15 @@ namespace PikachuGame
                     blockObj.blockImg.gameObject.SetActive(false);
                     listObjBlock.Add(blockObj);
                 }
-                else if ((block.y == 1 && (block.x != 2 && block.x != 4 && block.x != 11 && block.x != 13))
-                        || (block.y == 2 && (block.x == 1 || block.x == 3 || block.x == 12 || block.x == 14))
-                        || (block.y == 3 && (block.x == 1 || block.x == 14))
-                        || (block.y == 4 && (block.x == 1 || block.x == 2 || block.x == 13 || block.x == 14))
-                        || (block.y == 5 && (block.x != 4 && block.x != 5 && block.x != 7 && block.x != 8 && block.x != 10 && block.x != 11))
-                        || (block.y == 6 && (block.x == 1 || block.x == 5 || block.x == 10 || block.x == 14))
-                        || (block.y == 7 && (block.x == 3 || block.x == 12))
-                        || (block.y == 8 && (block.x != 1 && block.x != 2 && block.x != 13 && block.x != 14))
-                        || (block.y == 9 && (block.x != 1 && block.x != 2 && block.x != 3 && block.x != 12 && block.x != 13 && block.x != 14))
+                else if ((block.x == 1 && (block.y != 2 && block.y != 4 && block.y != 11 && block.y != 13))
+                        || (block.x == 2 && (block.y == 1 || block.y == 3 || block.y == 12 || block.y == 14))
+                        || (block.x == 3 && (block.y == 1 || block.y == 14))
+                        || (block.x == 4 && (block.y == 1 || block.y == 2 || block.y == 13 || block.y == 14))
+                        || (block.x == 5 && (block.y != 4 && block.y != 5 && block.y != 7 && block.y != 8 && block.y != 10 && block.y != 11))
+                        || (block.x == 6 && (block.y == 1 || block.y == 5 || block.y == 10 || block.y == 14))
+                        || (block.x == 7 && (block.y == 3 || block.y == 12))
+                        || (block.x == 8 && (block.y != 1 && block.y != 2 && block.y != 13 && block.y != 14))
+                        || (block.x == 9 && (block.y != 1 && block.y != 2 && block.y != 3 && block.y != 12 && block.y != 13 && block.y != 14))
                             )
                 {
                     block.isBlank = true;
@@ -429,10 +456,12 @@ namespace PikachuGame
         {
             int index = Random.Range(0, contentImg.Count);
 
+
+            parentGroup.cellSize = new(90, 90);
+            parentGroup.constraintCount = width + 2;
             foreach (Block block in this.listBlocks)
             {
                 BlockObj blockObj;
-                parentGroup.constraintCount = width + 2;
 
                 blockObj = Instantiate(blockObjPrefabs, Content);
                 if (block.x == 0 || block.x == this.width + 1 || block.y == 0 || block.y == this.height + 1)
@@ -442,15 +471,15 @@ namespace PikachuGame
                     blockObj.blockImg.gameObject.SetActive(false);
                     listObjBlock.Add(blockObj);
                 }
-                else if ((block.y == 1 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 4 || block.x == 13 || block.x == 14 || block.x == 15 || block.x == 16))
-                        || (block.y == 2 && (block.x != 6 && block.x != 7 && block.x != 8 && block.x != 9 && block.x != 10 && block.x != 11))
-                        || (block.y == 3 && (block.x != 7 && block.x != 8 && block.x != 9 && block.x != 10))
-                        || (block.y == 4 && (block.x != 6 && block.x != 7 && block.x != 8 && block.x != 9 && block.x != 10 && block.x != 11))
-                        || (block.y == 5 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 14 || block.x == 15 || block.x == 16))
-                        || (block.y == 6 && (block.x == 1 || block.x == 2 || block.x == 15 || block.x == 16))
-                        || (block.y == 7 && (block.x == 1 || block.x == 16))
-                        || (block.y == 8 && (block.x != 1 && block.x != 2 && block.x != 6 && block.x != 7 && block.x != 8 && block.x != 9 && block.x != 10 && block.x != 15 && block.x != 16))
-                        || (block.y == 9 && (block.x != 7 && block.x != 8 && block.x != 9 && block.x != 10 && block.x != 11))
+                else if ((block.x == 1 && (block.x == 1 || block.x == 2 || block.x == 3 || block.x == 4 || block.x == 13 || block.x == 14 || block.x == 15 || block.x == 16))
+                        || (block.x == 2 && (block.y != 6 && block.y != 7 && block.y != 8 && block.y != 9 && block.y != 10 && block.y != 11))
+                        || (block.x == 3 && (block.y != 7 && block.y != 8 && block.y != 9 && block.y != 10))
+                        || (block.x == 4 && (block.y != 6 && block.y != 7 && block.y != 8 && block.y != 9 && block.y != 10 && block.y != 11))
+                        || (block.x == 5 && (block.y == 1 || block.y == 2 || block.y == 3 || block.y == 14 || block.y == 15 || block.y == 16))
+                        || (block.x == 6 && (block.y == 1 || block.y == 2 || block.y == 15 || block.y == 16))
+                        || (block.x == 7 && (block.y == 1 || block.y == 16))
+                        || (block.x == 8 && (block.y != 1 && block.y != 2 && block.y != 6 && block.y != 7 && block.y != 8 && block.y != 9 && block.y != 10 && block.y != 15 && block.y != 16))
+                        || (block.x == 9 && (block.y != 7 && block.y != 8 && block.y != 9 && block.y != 10 && block.y != 11))
                             )
                 {
                     block.isBlank = true;
@@ -1534,10 +1563,12 @@ namespace PikachuGame
             {
                 isWin = true;
             }
-            if(currentTime < 0 && blockAmount >0)
+            if(currentTime <= 0 && blockAmount >0)
             {
                 isLose = true;
+
             }
+            if (isLose) popupLose.SetActive(true);
         }
 
 

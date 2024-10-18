@@ -13,7 +13,7 @@ namespace PikachuGame
 
         private void OnEnable()
         {
-            Screen.orientation = ScreenOrientation.LandscapeLeft;
+            //Screen.orientation = ScreenOrientation.LandscapeLeft;
         }
         private void Start()
         {

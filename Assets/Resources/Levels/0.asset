@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 0
   level: 0
   time: 100
-  width: 8
+  mapType: 0
+  width: 4
   height: 4
   pokemonCount: 4

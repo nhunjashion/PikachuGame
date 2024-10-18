@@ -16,6 +16,6 @@ MonoBehaviour:
   level: 1
   time: 100
   mapType: 0
-  width: 9
+  width: 4
   height: 4
   pokemonCount: 6

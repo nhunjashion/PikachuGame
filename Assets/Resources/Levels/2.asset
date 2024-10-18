@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   level: 2
-  time: 300
+  time: 100
   mapType: 0
-  width: 10
+  width: 4
   height: 4
   pokemonCount: 6
