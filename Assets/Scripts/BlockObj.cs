@@ -26,15 +26,16 @@ namespace PikachuGame
         public BlockObj down; // 2
         public BlockObj left; // 3
 
-        public void SetData(Sprite content, Sprite bg)       
+        public void SetData(Sprite content)       
         {
             contentImg.sprite = content;
-            blockImg.sprite = bg;
+            contentImg.SetNativeSize();
         }
 
 
         public void OnClickBlock()
         {
+            SoundManager.Instance.PlaySfx(SoundName.Click);
             Color colorSelect = new Color32(229,153,153,225);
             this.blockImg.color = colorSelect;
 

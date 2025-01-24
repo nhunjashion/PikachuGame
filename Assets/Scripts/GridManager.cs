@@ -174,14 +174,14 @@ namespace PikachuGame
                 }
             }
 
-            if (this.blockBgs == null) this.blockBgs = Resources.Load<SpriteSO>("ScriptableObjects/BlockBg");
+/*            if (this.blockBgs == null) this.blockBgs = Resources.Load<SpriteSO>("ScriptableObjects/BlockBg");
             else
             {
                 foreach (var item in blockBgs.sprites)
                 {
                     bgImg.Add(item);
                 }
-            }
+            }*/
 
         }
         public List<BlockObj> blockActive = new();
@@ -515,8 +515,6 @@ namespace PikachuGame
 
         public void SetImgBlockSpawn()
         {
-            int index = Random.Range(0, bgImg.Count - 1);
-            Sprite bg = bgImg[index];
             foreach (BlockObj block in this.listObjBlock)
             {
                 if (block.isBlank)
@@ -526,7 +524,7 @@ namespace PikachuGame
                 else
                 {
                     Sprite blockImg = SetImg();
-                    block.SetData(blockImg,bg);
+                    block.SetData(blockImg);
                     block.blockName = blockImg.name;
                 }
 
@@ -1627,6 +1625,7 @@ namespace PikachuGame
         public ParticleSystem disappearEff;
         public IEnumerator HideAnim()
         {
+
             Vector3 pos1 = blockSelect1.gameObject.transform.position;
             Vector3 pos2 = blockSelect2.gameObject.transform.position;
             blockSelect1.blockImg.transform.DOScale(1.2f, 0.1f);
@@ -1637,6 +1636,7 @@ namespace PikachuGame
 
 
             yield return new WaitForSeconds(.2f);
+            SoundManager.Instance.PlaySfx(SoundName.Link_Block);
             var eff = Instantiate(disappearEff, pos1, Quaternion.identity);
             var eff1 = Instantiate(disappearEff, pos2, Quaternion.identity);
 
